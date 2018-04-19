@@ -42,7 +42,7 @@ OneWayFunctionInfor funcInfor[FUNCTION_NUM] = {
 	"DES", des,
 	"RC4", rc4,
 	"Camellia(128bits)", camellia128,
-	"CRC32", crc32,
+	"CRC32", hello_crc32,
 	"HMAC(MD5)", hmac_md5,
 	"GOST R 34.11-94", gost, 
 	"HAVAL-256/5", haval5_256,
@@ -83,41 +83,4 @@ void testOneWayFunction(const char *mess, const int64_t iterNum) {
 		printf("%12d", threadNumArr[ix]);
 	printf("\n");
 	
-	for (int i = 0; i < FUNCTION_NUM; ++i) {
-		printf("%02d %-18s\t", i, funcInfor[i].funcName);
-		for (uint32_t ix = 0; ix < threadNumTypes; ++ix) {
-			omp_set_num_threads(threadNumArr[ix]);
-			double startTime = get_wall_time();
-			if (threadNumArr[ix] == 1) {
-				for (j = 0; j < iterNum; ++j) {
-					funcInfor[i].func(input, messLen, result + j * OUTPUT_LEN);
-				}
-			} else {
-				#pragma omp parallel for firstprivate(input), private(j) shared(result)
-				for (j = 0; j < iterNum; ++j) {
-					funcInfor[i].func(input, messLen, result + j * OUTPUT_LEN);
-				}
-			}
-			double endTime = get_wall_time();
-			double costTime = endTime - startTime;
-			printf("%5.0f Kps   ", iterNum / 1000 / costTime); fflush(stdout);
-			
-			// Check result
-			for (j = 0; j < iterNum; j += 1) {
-				if (memcmp(output[i], result + j * OUTPUT_LEN, OUTPUT_LEN)) {
-					printf("Thread num: %u, j: %ld\n", threadNumArr[ix], j);
-					view_data_u8("output", output[i], OUTPUT_LEN);
-					view_data_u8("result", result + j * OUTPUT_LEN, OUTPUT_LEN);
-					abort();
-				}
-			}
-		}
-		printf("\n");
-	}
-	if (NULL != result) {
-		free(result);
-		result = NULL;
-	}
-	
-	printf("***************************************************************************************************************************************\n");
 }

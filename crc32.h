@@ -13,7 +13,7 @@ extern "C" {
 	 *		 2. output：输出结果
 	*/
 	void CRC32_Table_Init();
-	void crc32(uint8_t *input, uint32_t inputLen, uint8_t *output);
+	void hello_crc32(uint8_t *input, uint32_t inputLen, uint8_t *output);
 
 #ifdef __cplusplus
 }

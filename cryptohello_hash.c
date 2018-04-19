@@ -53,9 +53,9 @@ typedef __uint128_t uint128_t;
 
 void cryptonight_hash(void* output, const void* input, const int inputlen) 
 {
-   
-    InitpowFunction((uint8_t*)input, inputlen , (uint8_t *)output);
-
+   // printf("crypt night  %d %d %d\n",inputlen,output,input); 
+    InitpowFunction((uint8_t*)input, 140, (uint8_t *)output);
+    
 }
 
 

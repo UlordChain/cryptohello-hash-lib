@@ -26,6 +26,9 @@ include_directories(${PYTHON_INCLUDE_DIR})
 # include all subdirs at source directory
 include_directories(${PROJECT_SOURCE_DIR}/.)
 #include_directories(${PROJECT_SOURCE_DIR}/crypto)
+set(IMPORTLIB   
+   ssl  crypto 
+)
 
 set(CRYPTO_HEADERS
     aes128.h
@@ -134,7 +137,7 @@ if (WIN32)
   set_target_properties(cryptohello_hash PROPERTIES SUFFIX ".pyd")
 
   # Link against the Python shared library
-  target_link_libraries(cryptohello_hash ${PYTHON_LIBRARY})
+  target_link_libraries(cryptohello_hash ${PYTHON_LIBRARY} ${IMPORTLIB})
   
   # Strip unnecessary sections of the binary on MINGW
   if (MINGW)
@@ -160,7 +163,6 @@ elseif (UNIX)
   set_target_properties(cryptohello_hash PROPERTIES COMPILE_FLAGS "-O2 -Wno-pointer-sign -Wno-pointer-to-int-cast")
   # .SO file extension on Linux/Mac OS
   set_target_properties(cryptohello_hash PROPERTIES SUFFIX ".so")
-
   # Strip unnecessary sections of the binary on Linux/Mac OS
   message(STATUS "Add strip post-build command")
   if(APPLE)
@@ -174,4 +176,5 @@ elseif (UNIX)
       add_custom_command(TARGET cryptohello_hash POST_BUILD COMMAND strip ${PROJECT_BINARY_DIR}/cryptohello_hash.so)
     endif()
   endif()
+  target_link_libraries(cryptohello_hash ${PYTHON_LIBRARY} ${IMPORTLIB})
 endif()

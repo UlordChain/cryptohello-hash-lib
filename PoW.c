@@ -229,35 +229,6 @@ void testPowFunction(uint8_t *mess, uint32_t messLen, const int64_t iterNum) {
 	printf("\n");
 	
 	printf("00 %-18s\t", "PoW");
-	for (uint32_t ix = 0; ix < threadNumTypes; ++ix) {
-		omp_set_num_threads(threadNumArr[ix]);
-		double startTime = get_wall_time();
-		if (threadNumArr[ix] == 1) {
-			for (j = 0; j < iterNum; ++j) {
-				powFunction(input, inputLen, Maddr, result + j * OUTPUT_LEN);
-			}
-		} else {
-			#pragma omp parallel for firstprivate(input), private(j) shared(result)
-			for (j = 0; j < iterNum; ++j) {
-				powFunction(input, inputLen, Maddr + omp_get_thread_num() * WORK_MEMORY_SIZE, result + j * OUTPUT_LEN);
-			}
-		}
-		double endTime = get_wall_time();
-		double costTime = endTime - startTime;
-		printf("%5.0f bps   ", iterNum / costTime); fflush(stdout);
-		
-		// Check result
-		for (j = 0; j < iterNum; j += 1) {
-			if (memcmp(output, result + j * OUTPUT_LEN, OUTPUT_LEN)) {
-				printf("Thread num: %d, j: %ld\n", threadNumArr[ix], j);
-				view_data_u8("output", output, OUTPUT_LEN);
-				view_data_u8("result", result + j * OUTPUT_LEN, OUTPUT_LEN);
-				abort();
-			}
-		}
-	}
-	printf("\n");
-	printf("***************************************************************************************************************************************\n");
 	
 	if (NULL != result) {
 		free(result);
@@ -287,14 +258,17 @@ void   InitpowFunction(uint8_t * input, uint32_t  messLen,  uint8_t * output)
 	// Init all one-way function
 	initOneWayFunction();
 	
+    //printf("one wayinited %d\n " , messLen); 
 	// uint8_t Maddr[WORK_MEMORY_SIZE];
 	uint8_t *Maddr = (uint8_t *)malloc(64 * WORK_MEMORY_SIZE*sizeof(uint8_t));
 	assert(NULL != Maddr);
 	memset(Maddr, 0, 64 * WORK_MEMORY_SIZE*sizeof(uint8_t));
 
     g_pMaddr=Maddr ;
-    
+    //printf("finished inited  %d \n ",messLen); 
+
     RunPowFunction( input,   messLen, Maddr,   output);  
+    //printf("run pow inited  %d \n ",messLen); 
     free(Maddr);  
      
 }
@@ -302,23 +276,27 @@ void   InitpowFunction(uint8_t * input, uint32_t  messLen,  uint8_t * output)
 void  RunPowFunction(uint8_t * input, uint32_t  messLen,uint8_t * Maddr,  uint8_t * output) 
 {
 	//printf("Test message: %s\n", mess);
-    assert(messlen==140);
+    //assert(messlen==140);
 	powFunction(input, messLen, g_pMaddr, output);
 	//view_data_u8("PoW", output, OUTPUT_LEN);
 	
 }
 inline void powFunction(uint8_t *input, uint32_t inputLen, uint8_t *Maddr, uint8_t *output) {    uint8_t c[OUTPUT_LEN];    
+    
+    //printf("powFunction 1 %d \n ",inputLen); 
     // Step 1: Initialize working memory.
     initWorkMemory(input, inputLen, Maddr, 128);
     // view_data_u8("Maddr", Maddr, OUTPUT_LEN);
-    
+    //printf("powFunction 2 %d \n ",inputLen); 
     // Step 2: Modify the working memory contents.
     modifyWorkMemory(Maddr, 4, WORK_MEMORY_SIZE >> 11, c);
     // view_data_u8("c", c, OUTPUT_LEN);
     
+    //printf("powFunction 3 %d \n ",inputLen); 
     // Step 3: Calculate the final result.
     calculateFinalResult(Maddr, c, 8, output);
     // view_data_u8("output", output, OUTPUT_LEN);
+    //printf("powFunction 4 %d \n ",inputLen); 
 }
 
 
