@@ -55,7 +55,6 @@ void initOneWayFunction() {
 }
 
 void testOneWayFunction(const char *mess, const int64_t iterNum) {
-	int64_t j;
 	uint32_t messLen = (uint32_t)strlen(mess);
 
 	uint8_t input[INPUT_LEN], output[FUNCTION_NUM][OUTPUT_LEN];
@@ -72,9 +71,9 @@ void testOneWayFunction(const char *mess, const int64_t iterNum) {
 	printf("*********************************************************************************************\n");
 	
 	printf("************************************************* Performance test (One way function) *************************************************\n");
-	uint8_t *result = (uint8_t *)malloc(iterNum * OUTPUT_LEN * sizeof(uint8_t));
+	uint8_t *result = (uint8_t *)malloc((rsize_t)iterNum * OUTPUT_LEN * sizeof(uint8_t));
 	assert(NULL != result);
-	memset(result, 0, iterNum * OUTPUT_LEN * sizeof(uint8_t));
+	memset(result, 0, (rsize_t)iterNum * OUTPUT_LEN * sizeof(uint8_t));
 	
 	uint32_t threadNumArr[] = {1, 4, 8, 12, 16,20, 24, 32, 48, 64};
 	uint32_t threadNumTypes = sizeof(threadNumArr) / sizeof(uint32_t);

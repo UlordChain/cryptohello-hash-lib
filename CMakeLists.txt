@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_MODULE_PATH})
-include(Cryptohello)
+#include(Cryptohello)
 message(STATUS "Target architectures: ${CMAKE_TARGET_ARCHITECTURES}")
 
 project(cryptohello_hash C ASM)
@@ -24,73 +24,75 @@ find_package(PythonLibs ${CRYPTOHELLO_PYTHON_VERSION} REQUIRED)
 # Include path for Python header files
 include_directories(${PYTHON_INCLUDE_DIR})
 # include all subdirs at source directory
-include_directories(${PROJECT_SOURCE_DIR}/.)
-#include_directories(${PROJECT_SOURCE_DIR}/crypto)
-set(IMPORTLIB   
-   ssl  crypto 
-)
+#include_directories(${PROJECT_SOURCE_DIR}/.)
+
+#find OpenSSL and include
+find_package(OpenSSL)
+if(NOT OPENSSL_FOUND)
+  message(FATAL_ERROR "OpenSSL not found!")
+endif()
+include_directories(${OPENSSL_INCLUDE_DIR})
+set(IMPORTLIB ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
 
 set(CRYPTO_HEADERS
     aes128.h
+    blake2_impl.h
+    blake2s.h
     blake2s256.h
     camellia128.h
+    common.h
     crc32.h
+    des.h
     gost.h
+    haval5_256.h
     hmac_md5.h
+    jtr_crc32.h
     jtr_gost.h
-    jtr_sph_skein.h  
-    keccak1600.h   
-    my_time.h         
-    PoW.h  
-    ripemd160.h  
-    sha256.h    
-    sha512.h        
-    whirlpool.h
-    blake2_impl.h  
-    blake2s.h     
-    common.h       
-    des.h    
-    haval5_256.h  
-    jtr_crc32.h  
-    jtr_sph_haval.h  
+    jtr_sph_haval.h
+    jtr_sph_skein.h
     jtr_sph_types.h  
-    my_rand48_r.h  
-    oneWayFunction.h  
-    rc4.h  
-    sha1.h  
-    sha3_256.h  
+    keccak1600.h
+    my_rand48_r.h   
+    my_time.h
+    oneWayFunction.h
+    PoW.h
+    rc4.h
+    ripemd160.h
+    sha1.h
+    sha3_256.h
+    sha256.h
+    sha512.h
     skein512_256.h
-
+    whirlpool.h
 )
 
 set(CRYPTO_SOURCES
-    PoW.c
-    hmac_md5.c
     aes128.c
-    camellia128.c 
+    blake2s.c
+    blake2s256.c
+    camellia128.c
+    common.c
     crc32.c
+    des.c
     gost.c
+    keccak1600.c
+    haval5_256.c
+    hmac_md5.c
+    jtr_crc32.c
+    jtr_gost.c
+    jtr_haval.c
+    jtr_skein.c
+    my_time.c
+    oneWayFunction.c
+    PoW.c
+    rc4.c
     ripemd160.c
     sha1.c
     sha3_256.c
-    skein512_256.c
-    blake2s256.c
-    des.c
-    haval5_256.c
-    rc4.c
     sha256.c
     sha512.c
+    skein512_256.c
     whirlpool.c
-    jtr_gost.c
-    jtr_skein.c
-    jtr_crc32.c
-    jtr_haval.c
-    blake2s.c
-    keccak1600.c
-    my_time.c
-    common.c
-    PoW.c
-    oneWayFunction.c
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/compat)

@@ -34,6 +34,7 @@ extern "C" {
 	void powNistTest(const char *outFileName);
     void InitpowFunction(uint8_t * input, uint32_t  messLen,  uint8_t * output);
     void  RunPowFunction(uint8_t * input, uint32_t  messLen,uint8_t * Maddr,  uint8_t * output);
+	void powFunction(uint8_t *input, uint32_t inputLen, uint8_t *Maddr, uint8_t *output);
 	
 #ifdef __cplusplus
 }

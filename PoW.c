@@ -195,8 +195,6 @@ void calculateFinalResult(uint8_t *Maddr, uint8_t *c, const uint32_t D, uint8_t 
  * Correctness & Performance test for Proof of work
 */
 void testPowFunction(uint8_t *mess, uint32_t messLen, const int64_t iterNum) {
-	int64_t j;
-
 	uint32_t inputLen = messLen;
 	uint8_t input[INPUT_LEN], output[OUTPUT_LEN];
 	memset(input, 0, INPUT_LEN*sizeof(uint8_t));
@@ -217,9 +215,9 @@ void testPowFunction(uint8_t *mess, uint32_t messLen, const int64_t iterNum) {
 	printf("*********************************************************************************************\n");
 	
 	printf("*************************************************** Performance test (PoW function) ***************************************************\n");
-	uint8_t *result = (uint8_t *)malloc(iterNum * OUTPUT_LEN * sizeof(uint8_t));
+	uint8_t *result = (uint8_t *)malloc((rsize_t)iterNum * OUTPUT_LEN * sizeof(uint8_t));
 	assert(NULL != result);
-	memset(result, 0, iterNum * OUTPUT_LEN * sizeof(uint8_t));
+	memset(result, 0, (rsize_t)iterNum * OUTPUT_LEN * sizeof(uint8_t));
 	
 	uint32_t threadNumArr[] = {1, 4, 8, 12, 16, 20, 24, 32, 48, 64};
 	uint32_t threadNumTypes = sizeof(threadNumArr) / sizeof(uint32_t);
@@ -283,20 +281,17 @@ void  RunPowFunction(uint8_t * input, uint32_t  messLen,uint8_t * Maddr,  uint8_
 }
 inline void powFunction(uint8_t *input, uint32_t inputLen, uint8_t *Maddr, uint8_t *output) {    uint8_t c[OUTPUT_LEN];    
     
-    //printf("powFunction 1 %d \n ",inputLen); 
     // Step 1: Initialize working memory.
     initWorkMemory(input, inputLen, Maddr, 128);
     // view_data_u8("Maddr", Maddr, OUTPUT_LEN);
-    //printf("powFunction 2 %d \n ",inputLen); 
+    
     // Step 2: Modify the working memory contents.
     modifyWorkMemory(Maddr, 4, WORK_MEMORY_SIZE >> 11, c);
     // view_data_u8("c", c, OUTPUT_LEN);
     
-    //printf("powFunction 3 %d \n ",inputLen); 
     // Step 3: Calculate the final result.
     calculateFinalResult(Maddr, c, 8, output);
     // view_data_u8("output", output, OUTPUT_LEN);
-    //printf("powFunction 4 %d \n ",inputLen); 
 }
 
 
@@ -321,7 +316,7 @@ void powNistTest(const char *outFileName) {
 		
 		FILE *fp = NULL;
 		if (NULL != (fp = fopen(curOutFileName, "wb"))) {
-			const uint32_t testInputCaseLen = strlen((char *)testInputCase[testCaseIx]);
+			const uint32_t testInputCaseLen = (uint32_t)strlen((char *)testInputCase[testCaseIx]);
 			
 			uint8_t input[MAX_TEST_INPUT_LEN];
 			memset(input, 0, MAX_TEST_INPUT_LEN*sizeof(uint8_t));
@@ -342,7 +337,7 @@ void powNistTest(const char *outFileName) {
 			}
 			double endTime = get_wall_time();
 			double costTime = endTime - startTime;
-			fprintf(stdout, "TestCaseIx: %d, Input: %s, IterNum: %lu, Time: %4.2f, Performance: %5.2f bps\n", testCaseIx, \
+			fprintf(stdout, "TestCaseIx: %d, Input: %s, IterNum: %llu, Time: %4.2f, Performance: %5.2f bps\n", testCaseIx, \
 				testInputCase[testCaseIx], iterNum, costTime, ((double)(iterNum * OUTPUT_LEN)) / costTime); fflush(stdout);
 
 			fwrite(outputBuffer, sizeof(uint8_t), OUTPUT_BUFFER_SIZE / sizeof(uint8_t), fp);
