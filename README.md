@@ -44,6 +44,8 @@ _Be careful, use the version that fits your environment. Instcuction here is_
 	cd build
 	
 	cmake -G "Visual Studio 15" ../
+
+	Note: If you use win64 OpenSSL and winx86-64 python, use command: cmake -G "Visual Studio 15 Win64" ../
 	
 ![](https://github.com/UlordChain/cryptohello-hash-lib/blob/master/img/i1.png?raw=true)
 	
