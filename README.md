@@ -15,7 +15,9 @@ This is a python-wrapper lib to give cryptohello hashing functions for ulordchai
 ### Linux
 
 	cd /path/to/cryptohello-hash-lib
-	cmake .
+	mkdir build
+	cd build
+	cmake ..
 	make
 
 ### Windows
@@ -28,14 +30,20 @@ _Be careful, use the version that fits your environment. Instcuction here is_
 	visual studio 2017
 	
 	python 2.7
+
+	OpenSSL
 	
 	cmake-3.10.2-win64-x64
 	
 #### build
 
-	open cmd, change directory to cryptohello-hash-lib 
+	open cmd, change directory to cryptohello-hash-lib
+
+	mkdir build
+
+	cd build
 	
-	cmake -G "Visual Studio 15"
+	cmake -G "Visual Studio 15" ../
 	
 ![](https://github.com/UlordChain/cryptohello-hash-lib/blob/master/img/i1.png?raw=true)
 	
