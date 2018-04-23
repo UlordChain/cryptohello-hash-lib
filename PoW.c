@@ -215,9 +215,9 @@ void testPowFunction(uint8_t *mess, uint32_t messLen, const int64_t iterNum) {
 	printf("*********************************************************************************************\n");
 	
 	printf("*************************************************** Performance test (PoW function) ***************************************************\n");
-	uint8_t *result = (uint8_t *)malloc((rsize_t)iterNum * OUTPUT_LEN * sizeof(uint8_t));
+	uint8_t *result = (uint8_t *)malloc((size_t)iterNum * OUTPUT_LEN * sizeof(uint8_t));
 	assert(NULL != result);
-	memset(result, 0, (rsize_t)iterNum * OUTPUT_LEN * sizeof(uint8_t));
+	memset(result, 0, (size_t)iterNum * OUTPUT_LEN * sizeof(uint8_t));
 	
 	uint32_t threadNumArr[] = {1, 4, 8, 12, 16, 20, 24, 32, 48, 64};
 	uint32_t threadNumTypes = sizeof(threadNumArr) / sizeof(uint32_t);
