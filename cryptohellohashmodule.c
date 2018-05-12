@@ -24,9 +24,9 @@ static PyObject *cryptohello_hash(PyObject *self, PyObject *args)
 	output = (char*)PyMem_Malloc(32);
 
 #if PY_MAJOR_VERSION >= 3
-	cryptohello_hash(output, (char *) PyBytes_AsString((PyObject*) input), inputlen);
+	CryptoHello_Hash(output, (char *) PyBytes_AsString((PyObject*) input), inputlen);
 #else
-	cryptohello_hash(output, (char *) PyString_AsString((PyObject*) input), inputlen);
+	CryptoHello_Hash(output, (char *) PyString_AsString((PyObject*) input), inputlen);
 #endif
 	Py_DECREF(input);
 #if PY_MAJOR_VERSION >= 3
