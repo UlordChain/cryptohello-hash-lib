@@ -24,9 +24,9 @@ static PyObject *cryptohello_hash(PyObject *self, PyObject *args)
 	output = (char*)PyMem_Malloc(32);
 
 #if PY_MAJOR_VERSION >= 3
-	cryptonight_hash(output, (char *) PyBytes_AsString((PyObject*) input), inputlen);
+	cryptohello_hash(output, (char *) PyBytes_AsString((PyObject*) input), inputlen);
 #else
-	cryptonight_hash(output, (char *) PyString_AsString((PyObject*) input), inputlen);
+	cryptohello_hash(output, (char *) PyString_AsString((PyObject*) input), inputlen);
 #endif
 	Py_DECREF(input);
 #if PY_MAJOR_VERSION >= 3
@@ -40,7 +40,7 @@ static PyObject *cryptohello_hash(PyObject *self, PyObject *args)
 
 
 static PyMethodDef CryptohelloMethods[] = {
-	{ "cryptohello_hash", cryptohello_hash, METH_VARARGS, "Hash with cryptonight algorithm" },
+	{ "cryptohello_hash", cryptohello_hash, METH_VARARGS, "Hash with cryptohello algorithm" },
 	{ NULL, NULL, 0, NULL }
 };
 

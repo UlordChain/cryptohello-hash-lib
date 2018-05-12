@@ -51,7 +51,7 @@ typedef __uint128_t uint128_t;
 #define INIT_SIZE_BLK   8
 //#define INIT_SIZE_BYTE (INIT_SIZE_BLK * AES_BLOCK_SIZE)
 
-void cryptonight_hash(void* output, const void* input, const int inputlen) 
+void cryptohello_hash(void* output, const void* input, const int inputlen) 
 {
    // printf("crypt night  %d %d %d\n",inputlen,output,input); 
     InitpowFunction((uint8_t*)input, 140, (uint8_t *)output);
