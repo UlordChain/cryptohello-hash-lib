@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include <malloc.h>
 
 /*
  * 功能：字节数组打印方法

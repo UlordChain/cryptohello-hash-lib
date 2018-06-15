@@ -5,8 +5,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#ifndef SYS_OS_MAC
 #include <omp.h>
-
+#endif // SYS_OS_MAC
 #include "my_time.h"
 #include "common.h"
 #include "my_rand48_r.h"

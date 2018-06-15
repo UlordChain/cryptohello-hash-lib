@@ -5,6 +5,11 @@ message(STATUS "Target architectures: ${CMAKE_TARGET_ARCHITECTURES}")
 
 project(cryptohello_hash C ASM)
 
+#add for macos
+if(APPLE)
+add_definitions("-DSYS_OS_MAC")
+ENDIF()
+
 # Add a CMake parameter for choosing a desired Python version
 set(CRYPTOHELLO_PYTHON_VERSION "" CACHE STRING "Python version to use for compiling cryptohello_hash library")
 
