@@ -23,7 +23,7 @@ This is a python-wrapper lib to give cryptohello hashing functions for ulordchai
 ### Windows
 
 #### tools
-_Be careful, use the version that fits your environment. Instcuction here is_
+_Be careful, use the version that fits your environment. Here is the recommend_
 
 	Windows 10 64bit
 	
