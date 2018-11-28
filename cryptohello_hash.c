@@ -25,7 +25,6 @@
 #endif
 #endif
 
-//#include "crypto/hash-ops.h"
 
 #if USE_INT128
 #if __GNUC__ == 4 && __GNUC_MINOR__ >= 4 && __GNUC_MINOR__ < 6
@@ -53,7 +52,7 @@ typedef __uint128_t uint128_t;
 
 void CryptoHello_Hash(void* output, const void* input, const int inputlen) 
 {
-   // printf("crypt night  %d %d %d\n",inputlen,output,input); 
+   // printf("crypt hello  %d %d %d\n",inputlen,output,input); 
     InitpowFunction((uint8_t*)input, 140, (uint8_t *)output);
     
 }
