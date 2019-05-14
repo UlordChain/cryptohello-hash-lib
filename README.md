@@ -6,7 +6,7 @@ Forked from [cryptonight-hash-lib](https://github.com/sumoprojects/cryptonight-h
 
 Copyright (c) 2017, Sumokoin.org
 
-Copyright (c) 2018, ulord.net
+Copyright (c) 2018, ulord.one
 
 This is a python-wrapper lib to give cryptohello hashing functions for ulordchain wallet server.
 
