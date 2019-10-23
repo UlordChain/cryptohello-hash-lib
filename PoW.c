@@ -257,19 +257,45 @@ void   InitpowFunction(uint8_t * input, uint32_t  messLen,  uint8_t * output)
 	// Init all one-way function
 	initOneWayFunction();
 	
-    //printf("one wayinited %d\n " , messLen); 
+	/** modify by tanke 10.22 begin **/
+	/*
+	//printf("one wayinited %d\n " , messLen); 
 	// uint8_t Maddr[WORK_MEMORY_SIZE];
 	uint8_t *Maddr = (uint8_t *)malloc(64 * WORK_MEMORY_SIZE*sizeof(uint8_t));
 	assert(NULL != Maddr);
 	memset(Maddr, 0, 64 * WORK_MEMORY_SIZE*sizeof(uint8_t));
 
-    g_pMaddr=Maddr ;
-    //printf("finished inited  %d \n ",messLen); 
+	g_pMaddr=Maddr ;
+	//printf("finished inited  %d \n ",messLen); 
 
-    RunPowFunction( input,   messLen, Maddr,   output);  
-    //printf("run pow inited  %d \n ",messLen); 
-    free(Maddr);  
-     
+	RunPowFunction( input,   messLen, Maddr,   output);  
+	//printf("run pow inited  %d \n ",messLen); 
+	free(Maddr); 
+	*/
+
+	const int INPUT_LEN2=180;
+	int64_t j;
+	uint32_t inputLen = messLen; 
+	uint8_t input[INPUT_LEN2];
+	memset(input, 0, INPUT_LEN2*sizeof(uint8_t));
+	memcpy(input, mess, inputLen*sizeof(char));      //operation: input
+
+	uint8_t *Maddr = (uint8_t *)malloc(WORK_MEMORY_SIZE*sizeof(uint8_t));  //1024*1024*1
+	assert(NULL != Maddr);
+	memset(Maddr, 0, WORK_MEMORY_SIZE*sizeof(uint8_t));
+
+	//printf("Test message: %s\n", mess);
+	powFunction(input, inputLen,Maddr, output);
+	//view_data_u8("PoW", output, OUTPUT_LEN);        //output
+	    
+	if (NULL != Maddr) {
+	    free(Maddr);
+	    Maddr = NULL;
+	}
+	
+	//printf("helloHash:Invalid message length %d\n", messLen);
+	return; 
+    /** modify by tanke 10.22 end **/
 }
 
 void  RunPowFunction(uint8_t * input, uint32_t  messLen,uint8_t * Maddr,  uint8_t * output) 
