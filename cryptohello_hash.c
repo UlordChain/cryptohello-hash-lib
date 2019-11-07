@@ -53,7 +53,7 @@ typedef __uint128_t uint128_t;
 void CryptoHello_Hash(void* output, const void* input, const int inputlen) 
 {
    // printf("crypt hello  %d %d %d\n",inputlen,output,input); 
-    InitpowFunction((uint8_t*)input, 140, (uint8_t *)output);
+    InitpowFunction((uint8_t*)input, inputlen, (uint8_t *)output);
     
 }
 
